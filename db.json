@@ -1,0 +1,33 @@
+{
+  "projects": [
+    {
+      "id": "5c9a",
+      "name": "teste",
+      "budget": "1300",
+      "category": {
+        "id": "2",
+        "name": "Development"
+      },
+      "cost": 0,
+      "services": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Infrastructure"
+    },
+    {
+      "id": "2",
+      "name": "Development"
+    },
+    {
+      "id": "3",
+      "name": "Design"
+    },
+    {
+      "id": "4",
+      "name": "Planning"
+    }
+  ]
+}
