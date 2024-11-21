@@ -1,34 +1,26 @@
 {
   "projects": [
     {
-      "id": "5c9a",
-      "name": "teste",
-      "budget": "1300",
+      "id": "f265",
+      "name": "Project 1",
+      "budget": "5000",
       "category": {
-        "id": "2",
-        "name": "Development"
+        "id": "4",
+        "name": "Planning"
       },
-      "cost": 700,
-      "services": [
-        {
-          "name": "P2",
-          "cost": "200",
-          "description": "Fiz",
-          "id": "a77144d4-d324-4b42-a4b5-8c77104e59cf"
-        },
-        {
-          "name": "P3",
-          "cost": "200",
-          "description": "Fiz",
-          "id": "98276da0-1045-4ca9-9b21-a0d6d7a4199d"
-        },
-        {
-          "name": "P4",
-          "cost": "300",
-          "description": "Fiz",
-          "id": "e9031453-6ad4-4451-8055-e20d243742f9"
-        }
-      ]
+      "cost": 0,
+      "services": []
+    },
+    {
+      "id": "64db",
+      "name": "Projeto 12",
+      "budget": "12000",
+      "category": {
+        "id": "1",
+        "name": "Infrastructure"
+      },
+      "cost": 0,
+      "services": []
     }
   ],
   "categories": [

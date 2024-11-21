@@ -1,36 +1,25 @@
-import '../css/Message.css'
-import {useState, useEffect} from 'react'
+import "../css/Message.css";
+import { useState, useEffect } from "react";
 
-function Message({type, message}){
+function Message({ type, message }) {
+  const [visible, setVisible] = useState(false);
 
-    const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    if (!message) {
+      setVisible(false);
+      return;
+    }
 
-    useEffect(() => {
+    setVisible(true);
 
-        if(!message){
-            setVisible(false)
-            return
-        }
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 3000);
 
-        setVisible(true)
+    return () => clearTimeout(timer);
+  }, [message]);
 
-        const timer = setTimeout(() => {
-            setVisible(false)
-        },3000)
-
-        return () =>clearTimeout(timer)
-
-    }, [message])
-
-    return(
-       <>
-    {visible && (
-        <div className={`message ${type}`}>
-        {message}
-       </div>
-    )}
-       </>
-    )
+  return <>{visible && <div className={`message ${type}`}>{message}</div>}</>;
 }
 
-export default Message
+export default Message;

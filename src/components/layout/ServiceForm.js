@@ -3,18 +3,17 @@ import Input from "../Input";
 import SubmitButton from "../Submit";
 import "../css/ProjectForm.css";
 
-function ServiceForm({handleSubmit, btnText, projectData}) {
-    
-    const [service, setService] = useState([])
+function ServiceForm({ handleSubmit, btnText, projectData }) {
+  const [service, setService] = useState([]);
 
   function submit(e) {
-    e.preventDefault()
-    projectData.services.push(service)
-    handleSubmit(projectData)
+    e.preventDefault();
+    projectData.services.push(service);
+    handleSubmit(projectData);
   }
 
   function handleChange(e) {
-    setService({...service, [e.target.name]: e.target.value})
+    setService({ ...service, [e.target.name]: e.target.value });
   }
 
   return (
@@ -43,7 +42,7 @@ function ServiceForm({handleSubmit, btnText, projectData}) {
         handleOnChange={handleChange}
       />
 
-    <SubmitButton text={btnText} />
+      <SubmitButton text={btnText} />
     </form>
   );
 }

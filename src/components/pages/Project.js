@@ -7,11 +7,13 @@ import Container from "../layout/Container";
 import ProjectForm from "../layout/ProjectForm";
 import Message from "../layout/Message";
 import ServiceForm from "../layout/ServiceForm";
+import ServiceCard from "../layout/ServiceCard";
 
 function Project() {
   const { id } = useParams();
 
   const [project, setProject] = useState([]);
+  const [services, setServices] = useState([]);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [message, setMessage] = useState();
@@ -27,6 +29,7 @@ function Project() {
       .then((resp) => resp.json())
       .then((data) => {
         setProject(data);
+        setServices(data.services);
       })
       .catch((err) => console.log(err));
   });
@@ -57,37 +60,63 @@ function Project() {
       .catch((err) => console.log(err));
   }
 
-  function createService(project){
+  function createService(project) {
     setMessage("");
 
-    const lastService = project.services[project.services.length - 1]
-    lastService.id = uuidv4()
-  console.log(lastService)
-    const lastServiceCost = lastService.cost
-    const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
+    const lastService = project.services[project.services.length - 1];
+    lastService.id = uuidv4();
+    console.log(lastService);
+    const lastServiceCost = lastService.cost;
+    const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost);
 
-    if(newCost > parseFloat(project.budget)){
-        setMessage('Budget exceeded, verify the service price!')
-        setType('error')
-        project.services.pop()
-        return false
+    if (newCost > parseFloat(project.budget)) {
+      setMessage("Budget exceeded, verify the service price!");
+      setType("error");
+      project.services.pop();
+      return false;
     }
 
-    project.cost = newCost
+    project.cost = newCost;
 
-    fetch(`http://localhost:5000/projects/${project.id}`,{
-        method: "PATCH",
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(project)
+    fetch(`http://localhost:5000/projects/${project.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(project),
     })
-    .then((resp) => resp.json())
-    .then((data) => {
-        console.log(data)
+      .then((resp) => resp.json())
+      .then(() => {
+        setShowServiceForm(false);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function removeService(id, cost) {
+    const servicesUpdated = project.services.filter(
+      (service) => service.id !== id
+    );
+
+    const projectUpdated = project;
+
+    projectUpdated.services = servicesUpdated;
+    projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost);
+
+    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectUpdated),
     })
-    .catch((err) => console.log(err))
-    
+      .then((resp) => resp.json())
+      .then((data) => {
+        setProject(projectUpdated);
+        setServices(servicesUpdated);
+        setMessage("Service removed successfully!");
+        setType("success");
+      })
+      .catch((err) => console.log(err));
   }
 
   function toggleProjectForm() {
@@ -149,7 +178,18 @@ function Project() {
             </div>
             <h2>Services</h2>
             <Container customClass="start">
-              <p>Service items</p>
+              {services.length > 0 &&
+                services.map((service) => (
+                  <ServiceCard
+                    id={service.id}
+                    name={service.name}
+                    cost={service.cost}
+                    description={service.description}
+                    key={service.id}
+                    handleRemove={removeService}
+                  />
+                ))}
+              {services.length === 0 && <p>Don't have any service</p>}
             </Container>
           </Container>
         </div>
